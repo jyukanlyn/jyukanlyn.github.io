@@ -63,3 +63,31 @@ function dimAll() {
 const chapters = scenario
   .map((step, index) => step.chapter ? { title: step.chapter, index } : null)
   .filter(Boolean);
+const chapterBtn = document.getElementById("chapter-btn");
+const chapterMenu = document.getElementById("chapter-menu");
+
+chapterBtn.addEventListener("click", e => {
+  e.stopPropagation();
+  openChapterMenu();
+});
+function openChapterMenu() {
+  chapterMenu.innerHTML = "<h2>章節選擇</h2>";
+
+  chapters.forEach(ch => {
+    const div = document.createElement("div");
+    div.className = "chapter-item";
+    div.textContent = ch.title;
+    div.onclick = () => jumpToChapter(ch.index);
+    chapterMenu.appendChild(div);
+  });
+
+  chapterMenu.hidden = false;
+}
+function jumpToChapter(index) {
+  state.index = index;
+  chapterMenu.hidden = true;
+  nextStep();
+}
+chapterMenu.addEventListener("click", () => {
+  chapterMenu.hidden = true;
+});
