@@ -60,3 +60,6 @@ function dimAll() {
   avatarLeft.classList.add("inactive");
   avatarRight.classList.add("inactive");
 }
+const chapters = scenario
+  .map((step, index) => step.chapter ? { title: step.chapter, index } : null)
+  .filter(Boolean);
