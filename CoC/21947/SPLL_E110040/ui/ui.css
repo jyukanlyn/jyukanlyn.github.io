@@ -89,3 +89,35 @@ html, body {
   white-space: pre-wrap;
   line-height: 1.6;
 }
+
+#chapter-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 20px;
+  background: rgba(255,255,255,.15);
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#chapter-menu {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.85);
+  color: white;
+  padding: 40px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.chapter-item {
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  cursor: pointer;
+}
+
+.chapter-item:hover {
+  color: #ffcc00;
+}
