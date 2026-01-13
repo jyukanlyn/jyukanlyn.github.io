@@ -4,269 +4,390 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[你的網站標題]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;400&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- CSS 變數：在這裡輕鬆修改全站顏色 --- */
         :root {
-            --bg-color: #f9f7f2;       /* 背景色：溫暖米白 */
-            --text-main: #333333;      /* 主要文字：深灰 */
-            --text-sub: #666666;       /* 次要文字：中灰 */
-            --accent-color: #8fa398;   /* 裝飾色：鼠尾草綠 */
-            --white: #ffffff;
-            --font-stack: "Helvetica Neue", Arial, "PingFang TC", "Heiti TC", "Microsoft JhengHei", sans-serif;
+            --bg-color: #0a0a0a;        /* 極致黑 */
+            --text-primary: #e0e0e0;    /* 珍珠白 */
+            --text-secondary: #888888;  /* 質感灰 */
+            --gold: #d4af37;            /* 奢華金 */
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Montserrat', sans-serif;
+            --easing: cubic-bezier(0.22, 1, 0.36, 1); /* 絲滑動畫曲線 */
         }
 
-        /* --- 基礎設定 --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* --- 基礎重置 --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: var(--font-stack);
             background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden; /* 防止橫向卷軸 */
         }
 
-        a {
-            text-decoration: none;
-            color: var(--text-main);
-            transition: 0.3s;
+        a { text-decoration: none; color: inherit; transition: 0.4s; }
+        ul { list-style: none; }
+
+        /* --- 特效類別 (Scroll Reveal) --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s var(--easing);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        a:hover {
-            color: var(--accent-color);
-        }
-
-        /* --- 容器 --- */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* --- 導覽列 (Header) --- */
+        /* --- 導覽列 --- */
         header {
-            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference; /* 讓文字在任何背景上都清晰且具設計感 */
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        nav ul { display: flex; gap: 40px; }
+        nav li a {
+            font-size: 0.8rem;
+            text-transform: uppercase;
             letter-spacing: 1px;
+            position: relative;
         }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 30px;
+        
+        /* 連結下方的金色滑動線條 */
+        nav li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--gold);
+            transition: width 0.3s ease;
         }
+        nav li a:hover::after { width: 100%; }
 
-        /* --- 首屏區塊 (Hero Section) --- */
+        /* --- Hero 首屏 --- */
         .hero {
-            height: 80vh; /* 佔據螢幕高度的 80% */
+            height: 100vh;
             display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            align-items: flex-start;
+            position: relative;
+            text-align: center;
+        }
+
+        /* 背景裝飾圓 (光暈效果) */
+        .glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            animation: pulse 6s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-family: var(--font-heading);
+            font-size: 5rem;
+            line-height: 1;
             margin-bottom: 20px;
-            line-height: 1.2;
+            font-weight: 300;
+        }
+        
+        .hero h1 span {
+            display: block;
+            font-style: italic;
+            color: var(--gold);
         }
 
         .hero p {
-            font-size: 1.2rem;
-            color: var(--text-sub);
-            margin-bottom: 30px;
-            max-width: 600px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background-color: var(--accent-color);
-            color: var(--white);
-            border-radius: 5px;
             font-size: 1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-top: 20px;
         }
 
-        .btn:hover {
-            background-color: #7a8e84; /* 按鈕變深效果 */
-            color: var(--white);
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            opacity: 0.6;
+            animation: bob 2s infinite;
+        }
+        @keyframes bob {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, 10px); }
         }
 
-        /* --- 通用區塊設定 --- */
-        section {
-            padding: 80px 0;
+        /* --- 內容區塊共用 --- */
+        section { padding: 150px 10%; }
+
+        .section-label {
+            font-size: 0.8rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
         }
 
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 40px;
-            text-align: center;
-            position: relative;
-        }
-
-        /* --- 關於區塊 (About) --- */
-        .about-grid {
+        /* --- 介紹區 (圖文交錯) --- */
+        .intro {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 50px;
+            gap: 80px;
             align-items: center;
         }
 
-        .image-placeholder {
+        .intro-text h2 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+
+        .intro-text p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        /* 圖片容器設計 (像畫框一樣) */
+        .img-frame {
             width: 100%;
-            height: 300px;
-            background-color: #e0e0e0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #888;
-            border-radius: 8px;
-        }
-
-        /* --- 作品集區塊 (Portfolio) --- */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .portfolio-item {
-            background: var(--white);
-            border-radius: 8px;
+            height: 500px;
+            background-color: #1a1a1a;
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+        }
+        
+        .img-frame::before {
+            content: '[ 放置你的形象照 ]';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            color: #333;
+            letter-spacing: 2px;
         }
 
-        .portfolio-item:hover {
-            transform: translateY(-5px);
+        /* 裝飾線框 */
+        .frame-border {
+            position: absolute;
+            top: -20px; left: -20px;
+            width: 100%; height: 100%;
+            border: 1px solid var(--gold);
+            z-index: -1;
+            transition: transform 0.6s var(--easing);
+        }
+        
+        .intro:hover .frame-border {
+            transform: translate(10px, 10px);
         }
 
-        .portfolio-img {
-            height: 200px;
-            background-color: #ddd;
+        /* --- 作品集 (瀑布流/網格) --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 400px;
+            background-color: #151515;
+            overflow: hidden;
+            cursor: pointer;
+            group;
+        }
+
+        .gallery-item:nth-child(2) { margin-top: 50px; } /* 錯位設計 */
+        .gallery-item:nth-child(3) { margin-top: 100px; }
+
+        .gallery-placeholder {
+            width: 100%; height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #777;
+            color: #444;
+            transition: transform 0.8s var(--easing);
         }
 
-        .portfolio-info {
-            padding: 20px;
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            padding: 30px;
+            background: linear-gradient(to top, black, transparent);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
         }
 
-        .portfolio-info h3 {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
+        .gallery-item:hover .gallery-placeholder { transform: scale(1.05); }
+        .gallery-item:hover .gallery-overlay { opacity: 1; transform: translateY(0); }
+
+        .gallery-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--white);
         }
 
-        .portfolio-info p {
-            font-size: 0.9rem;
-            color: var(--text-sub);
+        .gallery-desc {
+            font-size: 0.8rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* --- 頁尾 (Footer) --- */
+        /* --- 頁尾 --- */
         footer {
-            background-color: var(--white);
-            padding: 40px 0;
             text-align: center;
-            border-top: 1px solid #eee;
-            color: var(--text-sub);
-            font-size: 0.9rem;
+            padding: 100px 0;
+            border-top: 1px solid #222;
+            color: var(--text-secondary);
         }
 
-        /* --- 手機版響應式調整 --- */
+        /* --- RWD 響應式 --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .about-grid { grid-template-columns: 1fr; }
-            nav ul { gap: 15px; font-size: 0.9rem; }
+            .hero h1 { font-size: 3rem; }
+            .intro { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .gallery-item { margin-top: 0 !important; height: 300px; }
+            section { padding: 80px 20px; }
+            header { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <header class="container">
-        <div class="logo">[網站名稱/Logo]</div>
+    <header>
+        <div class="logo">[Logo]</div>
         <nav>
             <ul>
-                <li><a href="#">[關於我連結]</a></li>
-                <li><a href="#">[作品集連結]</a></li>
-                <li><a href="#">[聯絡連結]</a></li>
+                <li><a href="#">[選單一]</a></li>
+                <li><a href="#">[選單二]</a></li>
+                <li><a href="#">[選單三]</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="hero container">
-        <h1>[醒目的一句話/主要標題]<br>[第二行標題]</h1>
-        <p>[這裡放置簡短的自我介紹，或是一段引人入勝的副標題，用來描述這個網站的主要目的。]</p>
-        <a href="#" class="btn">[主要行動呼籲按鈕 (如: 查看作品)]</a>
+    <div class="glow"></div>
+
+    <section class="hero">
+        <div class="reveal">
+            <p>[網站副標題 / 你的角色]</p>
+            <h1>[主要標題]<br><span>[更華麗的第二行]</span></h1>
+            <div style="margin-top: 40px;">
+                <a href="#" style="border-bottom: 1px solid var(--text-primary); padding-bottom: 5px;">[探索更多]</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">[向下滾動]</div>
     </section>
 
-    <section id="about" class="container">
-        <h2 class="section-title">[關於我標題]</h2>
-        <div class="about-grid">
-            <div class="image-placeholder">
-                [個人照片或形象圖]
-            </div>
-            <div>
-                <h3>[小標題：我是誰]</h3>
-                <br>
-                <p>[詳細介紹文字段落 1：描述你的背景、經歷或是你的設計理念。保持文字簡潔有力。]</p>
-                <br>
-                <p>[詳細介紹文字段落 2：更多關於你的資訊，或是你目前正在專注的事情。]</p>
-            </div>
+    <section class="intro">
+        <div class="intro-text reveal">
+            <span class="section-label">[關於我 / 理念]</span>
+            <h2>[引人入勝的<br>哲學或介紹]</h2>
+            <p>[這裡是用來顯示主要介紹內容的區域。使用襯線字體讓這段文字看起來像是一本高級雜誌的專訪內容。保持文字的呼吸感，不要塞太滿。]</p>
+            <p>[第二段補充說明，可以放你的經歷或是提供的服務項目。]</p>
+        </div>
+        <div style="position: relative;" class="reveal">
+            <div class="img-frame">
+                </div>
+            <div class="frame-border"></div>
         </div>
     </section>
 
-    <section id="portfolio" class="container">
-        <h2 class="section-title">[精選作品/文章]</h2>
-        <div class="portfolio-grid">
-            <article class="portfolio-item">
-                <div class="portfolio-img">[預覽圖片 1]</div>
-                <div class="portfolio-info">
-                    <h3>[作品名稱 1]</h3>
-                    <p>[作品簡短描述或分類標籤]</p>
-                </div>
-            </article>
-
-            <article class="portfolio-item">
-                <div class="portfolio-img">[預覽圖片 2]</div>
-                <div class="portfolio-info">
-                    <h3>[作品名稱 2]</h3>
-                    <p>[作品簡短描述或分類標籤]</p>
-                </div>
-            </article>
-
-            <article class="portfolio-item">
-                <div class="portfolio-img">[預覽圖片 3]</div>
-                <div class="portfolio-info">
-                    <h3>[作品名稱 3]</h3>
-                    <p>[作品簡短描述或分類標籤]</p>
-                </div>
-            </article>
-        </div>
-    </section>
-
-    <footer>
+    <section class="gallery">
         <div class="container">
-            <p>[版權聲明 © 2024 你的名字]</p>
-            <p style="margin-top: 10px;">
-                <a href="#">[社群連結 1]</a> • 
-                <a href="#">[社群連結 2]</a> • 
-                <a href="#">[Email]</a>
-            </p>
+            <div style="text-align: center; margin-bottom: 80px;" class="reveal">
+                <span class="section-label">[精選集]</span>
+                <h2 style="font-family: var(--font-heading); font-size: 3rem;">[作品展示]</h2>
+            </div>
+
+            <div class="gallery-grid">
+                <article class="gallery-item reveal">
+                    <div class="gallery-placeholder">[作品圖片佔位符 1]</div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-desc">[分類標籤]</div>
+                        <h3 class="gallery-title">[作品名稱]</h3>
+                    </div>
+                </article>
+
+                <article class="gallery-item reveal">
+                    <div class="gallery-placeholder">[作品圖片佔位符 2]</div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-desc">[分類標籤]</div>
+                        <h3 class="gallery-title">[作品名稱]</h3>
+                    </div>
+                </article>
+
+                <article class="gallery-item reveal">
+                    <div class="gallery-placeholder">[作品圖片佔位符 3]</div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-desc">[分類標籤]</div>
+                        <h3 class="gallery-title">[作品名稱]</h3>
+                    </div>
+                </article>
+            </div>
         </div>
+    </section>
+
+    <footer class="reveal">
+        <p>[版權資訊 &copy; 2024]</p>
+        <br>
+        <p style="font-size: 0.8rem; letter-spacing: 2px;">[聯絡方式] • [社群媒體]</p>
     </footer>
+
+    <script>
+        // JS 腳本：負責處理滾動時的淡入特效
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 150; // 元素進入視窗多少像素後顯示
+
+                reveals.forEach((reveal) => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', revealOnScroll);
+            // 初始化檢查一次
+            revealOnScroll();
+        });
+    </script>
 
 </body>
 </html>
